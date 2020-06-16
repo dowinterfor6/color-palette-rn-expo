@@ -2,21 +2,23 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import PalettePreview from '../components/PalettePreview';
+import { IColorPalette } from '../interfaces/interfaces';
+import { HomeScreenProps } from '../interfaces/types';
 
-const Home = ({ navigation, route }) => {
+const Home = ({ navigation, route }: HomeScreenProps) => {
   const newColorPalette = route.params
     ? route.params.newColorPalette
     : undefined;
-  const [colorPalettes, setColorPalettes] = useState([]);
+  const [colorPalettes, setColorPalettes] = useState<IColorPalette[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchColorPalettes = useCallback(async () => {
     const result = await fetch(
-      'https://color-palette-api.kadikraman.now.sh/palettes'
+      'https://color-palette-api.kadikraman.now.sh/palettes',
     );
 
     if (result.ok) {
-      const palettes = await result.json();
+      const palettes: IColorPalette[] = await result.json();
       setColorPalettes(palettes);
     }
   }, []);
@@ -41,7 +43,7 @@ const Home = ({ navigation, route }) => {
     <FlatList
       style={styles.list}
       data={colorPalettes}
-      keyExtractor={(_, index) => index}
+      keyExtractor={(_, index) => `home-palette-list-${index}`}
       renderItem={({ item }) => (
         <PalettePreview
           handlePress={() => {
