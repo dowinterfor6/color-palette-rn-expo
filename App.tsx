@@ -4,9 +4,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './screens/Home';
 import ColorPalette from './screens/ColorPalette';
 import ColorPaletteModal from './screens/ColorPaletteModal';
+import { RootStackParamList, MainStackParamList } from './interfaces/types';
 
-const RootStack = createStackNavigator();
-const MainStack = createStackNavigator();
+const RootStack = createStackNavigator<RootStackParamList>();
+const MainStack = createStackNavigator<MainStackParamList>();
 
 const MainStackScreen = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
         <RootStack.Screen
           name="ColorPaletteModal"
           component={ColorPaletteModal}
+          options={{ title: 'New Color Palette' }}
         />
       </RootStack.Navigator>
     </NavigationContainer>

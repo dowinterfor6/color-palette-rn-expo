@@ -1,15 +1,21 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet, FlatList, View } from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+  View,
+} from 'react-native';
+import { IPalettePreview } from '../interfaces/interfaces';
 
-const PalettePreview = ({ handlePress, colorPalette }) => {
+const PalettePreview = ({ handlePress, colorPalette }: IPalettePreview) => {
   return (
     <TouchableOpacity onPress={handlePress}>
       <Text style={styles.text}>{colorPalette.paletteName}</Text>
       <FlatList
         style={styles.list}
-        // horizontal={true}
         data={colorPalette.colors.slice(0, 5)}
-        keyExtractor={(item) => item.colorName}
+        keyExtractor={(_, index) => `palette-item-${index}`}
         renderItem={({ item }) => (
           <View style={[{ backgroundColor: item.hexCode }, styles.box]} />
         )}

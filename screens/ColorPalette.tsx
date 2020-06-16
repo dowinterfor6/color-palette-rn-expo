@@ -2,9 +2,11 @@ import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import ColorBox from '../components/ColorBox';
+import { IColorPalette } from '../interfaces/interfaces';
+import { ColorPaletteScreenProps } from '../interfaces/types';
 
-const ColorPalette = ({ route }) => {
-  const { colors, paletteName } = route.params;
+const ColorPalette = ({ route }: ColorPaletteScreenProps) => {
+  const { colors, paletteName }: IColorPalette = route.params;
 
   return (
     // <SafeAreaView style={GlobalStyles.droidSafeArea}>
@@ -14,7 +16,7 @@ const ColorPalette = ({ route }) => {
       renderItem={({ item }) => (
         <ColorBox colorName={item.colorName} hexCode={item.hexCode} />
       )}
-      keyExtractor={(item, index) => item.colorName + index}
+      keyExtractor={(_, index) => `color-item-${index}`}
       ListHeaderComponent={<Text style={styles.text}>{paletteName}</Text>}
     />
     // </SafeAreaView>
