@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from './screens/Home';
-import ColorPalette from './screens/ColorPalette';
-import ColorPaletteModal from './screens/ColorPaletteModal';
-import { RootStackParamList, MainStackParamList } from './interfaces/types';
+import Home from './src/screens/Home';
+import ColorPalette from './src/screens/ColorPalette';
+import ColorPaletteModal from './src/screens/ColorPaletteModal';
+import { RootStackParamList, MainStackParamList } from './src/interfaces/types';
 import { Provider } from 'react-redux';
-import { store, persistor } from './store/configureStore';
+import { store, persistor } from './src/store/configureStore';
 import { PersistGate } from 'redux-persist/integration/react';
 
 const RootStack = createStackNavigator<RootStackParamList>();

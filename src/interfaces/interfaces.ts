@@ -9,7 +9,7 @@ export interface IColorPalette {
 }
 
 export interface IPalettePreview {
-  handlePress: Function;
+  handlePress: () => void;
   colorPalette: IColorPalette;
 }
 

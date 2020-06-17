@@ -1,5 +1,5 @@
 import { CREATE_PALETTE, FETCH_PALETTES } from '../actions/actions';
-import { COLOR_PALETTES } from '../initialColorPalettes';
+import { COLOR_PALETTES } from '../data/initialColorPalettes';
 
 const colorPaletteReducer = (state = COLOR_PALETTES, action) => {
   Object.freeze(state);
