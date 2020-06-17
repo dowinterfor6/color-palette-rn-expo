@@ -2,39 +2,50 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import PalettePreview from '../components/PalettePreview';
-import { IColorPalette } from '../interfaces/interfaces';
+import { IColorPalette, IState } from '../interfaces/interfaces';
 import { HomeScreenProps } from '../interfaces/types';
+import { bindActionCreators, Dispatch } from 'redux';
+import { createPalette, fetchPalettes } from '../actions/actions';
+import { connect } from 'react-redux';
 
-const Home = ({ navigation, route }: HomeScreenProps) => {
+const Home = ({
+  navigation,
+  route,
+  colorPalettesStore,
+  fetchColorPalettes,
+  createColorPalette,
+}: HomeScreenProps) => {
   const newColorPalette = route.params
     ? route.params.newColorPalette
     : undefined;
   const [colorPalettes, setColorPalettes] = useState<IColorPalette[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const fetchColorPalettes = useCallback(async () => {
-    const result = await fetch(
-      'https://color-palette-api.kadikraman.now.sh/palettes',
-    );
+  // const fetchColorPalettes = useCallback(async () => {
+  //   const result = await fetch(
+  //     'https://color-palette-api.kadikraman.now.sh/palettes',
+  //   );
 
-    if (result.ok) {
-      const palettes: IColorPalette[] = await result.json();
-      setColorPalettes(palettes);
-    }
-  }, []);
+  //   if (result.ok) {
+  //     const palettes: IColorPalette[] = await result.json();
+  //     setColorPalettes(palettes);
+  //   }
+  // }, []);
 
   useEffect(() => {
-    fetchColorPalettes();
+    setColorPalettes(colorPalettesStore);
   }, []);
 
-  const handleRefresh = useCallback(async () => {
+  const handleRefresh = useCallback(() => {
     setIsRefreshing(true);
-    await fetchColorPalettes();
+    fetchColorPalettes();
+    setColorPalettes(colorPalettesStore);
     setIsRefreshing(false);
-  }, []);
+  }, [colorPalettesStore]);
 
   useEffect(() => {
     if (newColorPalette) {
+      createColorPalette(newColorPalette);
       setColorPalettes((palettes) => [newColorPalette, ...palettes]);
     }
   }, [newColorPalette]);
@@ -80,4 +91,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+const mstp = (state: IState) => {
+  const { colorPalettes: colorPalettesStore } = state;
+  return { colorPalettesStore };
+};
+
+const mdtp = (dispatch: Dispatch) => {
+  return {
+    createColorPalette: bindActionCreators(createPalette, dispatch),
+    fetchColorPalettes: bindActionCreators(fetchPalettes, dispatch),
+  };
+};
+
+export default connect(mstp, mdtp)(Home);

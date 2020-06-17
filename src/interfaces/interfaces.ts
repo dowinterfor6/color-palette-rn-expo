@@ -12,3 +12,7 @@ export interface IPalettePreview {
   handlePress: () => void;
   colorPalette: IColorPalette;
 }
+
+export interface IState {
+  colorPalettes: IColorPalette[];
+}

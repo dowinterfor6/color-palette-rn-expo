@@ -5,6 +5,7 @@ import { IColorPalette, IColor } from './interfaces';
 export type RootStackParamList = {
   Home: { newColorPalette?: IColorPalette };
   ColorPaletteModal: undefined;
+  Main: undefined;
 };
 
 type ColorPaletteModalScreenNavigationProp = StackNavigationProp<
@@ -29,6 +30,9 @@ type HomeScreenRouteProp = RouteProp<MainStackParamList, 'Home'>;
 export type HomeScreenProps = {
   navigation: HomeScreenNavigationProp;
   route: HomeScreenRouteProp;
+  colorPalettesStore: IColorPalette[];
+  fetchColorPalettes: Function;
+  createColorPalette: Function;
 };
 
 type ColorPaletteScreenNavigationProp = StackNavigationProp<
