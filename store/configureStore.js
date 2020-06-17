@@ -6,13 +6,10 @@ import rootReducer from '../reducers/rootReducer';
 
 const persistConfig = {
   key: 'root',
-  AsyncStorage,
+  storage: AsyncStorage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export default () => {
-  let store = createStore(persistedReducer);
-  let persistor = persistStore(store);
-  return { store, persistor };
-};
+export const store = createStore(persistedReducer);
+export const persistor = persistStore(store);
