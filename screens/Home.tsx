@@ -4,37 +4,59 @@ import { FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import PalettePreview from '../components/PalettePreview';
 import { IColorPalette } from '../interfaces/interfaces';
 import { HomeScreenProps } from '../interfaces/types';
+import { bindActionCreators } from 'redux';
+import { createPalette, fetchPalettes } from '../actions/actions';
+import { connect } from 'react-redux';
 
-const Home = ({ navigation, route }: HomeScreenProps) => {
+// const Home = ({ navigation, route, colorPalettesStore }: HomeScreenProps) => {
+// console.warn(colorPalettesStore);
+const Home = (props) => {
+  const {
+    navigation,
+    route,
+    colorPalettesStore,
+    fetchColorPalettes,
+    createColorPalette,
+  } = props;
+
   const newColorPalette = route.params
     ? route.params.newColorPalette
     : undefined;
   const [colorPalettes, setColorPalettes] = useState<IColorPalette[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const fetchColorPalettes = useCallback(async () => {
-    const result = await fetch(
-      'https://color-palette-api.kadikraman.now.sh/palettes',
-    );
+  // const fetchColorPalettes = useCallback(async () => {
+  //   const result = await fetch(
+  //     'https://color-palette-api.kadikraman.now.sh/palettes',
+  //   );
 
-    if (result.ok) {
-      const palettes: IColorPalette[] = await result.json();
-      setColorPalettes(palettes);
-    }
-  }, []);
+  //   if (result.ok) {
+  //     const palettes: IColorPalette[] = await result.json();
+  //     setColorPalettes(palettes);
+  //   }
+  // }, []);
 
   useEffect(() => {
-    fetchColorPalettes();
+    setColorPalettes(colorPalettesStore);
+    // fetchColorPalettes();
+    // fetchPalettes(); // Don't need?
+    // console.warn(colorPalettesStore)
   }, []);
 
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
-    await fetchColorPalettes();
+    let a = await fetchColorPalettes();
+    console.warn('store on home', colorPalettesStore.length);
+    setColorPalettes(colorPalettesStore);
+    // console.warn(colorPalettesStore);
+    // await fetchColorPalettes();
     setIsRefreshing(false);
-  }, []);
+  }, [colorPalettesStore]);
 
   useEffect(() => {
     if (newColorPalette) {
+      // TODO: REDUX
+      createColorPalette(newColorPalette);
       setColorPalettes((palettes) => [newColorPalette, ...palettes]);
     }
   }, [newColorPalette]);
@@ -80,4 +102,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+// export default Home;
+
+const mstp = (state) => {
+  const { colorPalettes: colorPalettesStore } = state;
+  return { colorPalettesStore };
+};
+
+const mdtp = (dispatch) => {
+  return {
+    createColorPalette: bindActionCreators(createPalette, dispatch),
+    fetchColorPalettes: bindActionCreators(fetchPalettes, dispatch),
+  };
+};
+
+export default connect(mstp, mdtp)(Home);

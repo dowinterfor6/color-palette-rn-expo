@@ -5,6 +5,7 @@ import { IColorPalette, IColor } from './interfaces';
 export type RootStackParamList = {
   Home: { newColorPalette?: IColorPalette };
   ColorPaletteModal: undefined;
+  Main: undefined;
 };
 
 type ColorPaletteModalScreenNavigationProp = StackNavigationProp<
