@@ -30,6 +30,9 @@ type HomeScreenRouteProp = RouteProp<MainStackParamList, 'Home'>;
 export type HomeScreenProps = {
   navigation: HomeScreenNavigationProp;
   route: HomeScreenRouteProp;
+  colorPalettesStore: IColorPalette[];
+  fetchColorPalettes: Function;
+  createColorPalette: Function;
 };
 
 type ColorPaletteScreenNavigationProp = StackNavigationProp<

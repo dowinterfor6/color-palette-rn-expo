@@ -6,13 +6,8 @@ const colorPaletteReducer = (state = COLOR_PALETTES, action) => {
 
   switch (action.type) {
     case CREATE_PALETTE:
-      // console.warn(state);
-      // return state;
-      // console.warn(action.colorPalette);
-      console.warn('create', [action.colorPalette, ...state].length);
       return [action.colorPalette, ...state];
     case FETCH_PALETTES:
-      console.warn('fetch', state.length);
       return state;
     default:
       return state;

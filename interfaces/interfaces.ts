@@ -9,6 +9,10 @@ export interface IColorPalette {
 }
 
 export interface IPalettePreview {
-  handlePress: () => void;
+  handlePress: Function;
   colorPalette: IColorPalette;
+}
+
+export interface IState {
+  colorPalettes: IColorPalette[];
 }

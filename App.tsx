@@ -5,16 +5,12 @@ import Home from './screens/Home';
 import ColorPalette from './screens/ColorPalette';
 import ColorPaletteModal from './screens/ColorPaletteModal';
 import { RootStackParamList, MainStackParamList } from './interfaces/types';
-// import { createStore } from 'redux';
-// import rootReducer from './reducers/rootReducer';
 import { Provider } from 'react-redux';
 import { store, persistor } from './store/configureStore';
 import { PersistGate } from 'redux-persist/integration/react';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 const MainStack = createStackNavigator<MainStackParamList>();
-
-// const store = createStore(rootReducer);
 
 const MainStackScreen = () => {
   return (

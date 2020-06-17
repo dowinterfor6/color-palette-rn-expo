@@ -2,23 +2,19 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import PalettePreview from '../components/PalettePreview';
-import { IColorPalette } from '../interfaces/interfaces';
+import { IColorPalette, IState } from '../interfaces/interfaces';
 import { HomeScreenProps } from '../interfaces/types';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { createPalette, fetchPalettes } from '../actions/actions';
 import { connect } from 'react-redux';
 
-// const Home = ({ navigation, route, colorPalettesStore }: HomeScreenProps) => {
-// console.warn(colorPalettesStore);
-const Home = (props) => {
-  const {
-    navigation,
-    route,
-    colorPalettesStore,
-    fetchColorPalettes,
-    createColorPalette,
-  } = props;
-
+const Home = ({
+  navigation,
+  route,
+  colorPalettesStore,
+  fetchColorPalettes,
+  createColorPalette,
+}: HomeScreenProps) => {
   const newColorPalette = route.params
     ? route.params.newColorPalette
     : undefined;
@@ -38,24 +34,17 @@ const Home = (props) => {
 
   useEffect(() => {
     setColorPalettes(colorPalettesStore);
-    // fetchColorPalettes();
-    // fetchPalettes(); // Don't need?
-    // console.warn(colorPalettesStore)
   }, []);
 
-  const handleRefresh = useCallback(async () => {
+  const handleRefresh = useCallback(() => {
     setIsRefreshing(true);
-    let a = await fetchColorPalettes();
-    console.warn('store on home', colorPalettesStore.length);
+    fetchColorPalettes();
     setColorPalettes(colorPalettesStore);
-    // console.warn(colorPalettesStore);
-    // await fetchColorPalettes();
     setIsRefreshing(false);
   }, [colorPalettesStore]);
 
   useEffect(() => {
     if (newColorPalette) {
-      // TODO: REDUX
       createColorPalette(newColorPalette);
       setColorPalettes((palettes) => [newColorPalette, ...palettes]);
     }
@@ -102,14 +91,12 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default Home;
-
-const mstp = (state) => {
+const mstp = (state: IState) => {
   const { colorPalettes: colorPalettesStore } = state;
   return { colorPalettesStore };
 };
 
-const mdtp = (dispatch) => {
+const mdtp = (dispatch: Dispatch) => {
   return {
     createColorPalette: bindActionCreators(createPalette, dispatch),
     fetchColorPalettes: bindActionCreators(fetchPalettes, dispatch),
