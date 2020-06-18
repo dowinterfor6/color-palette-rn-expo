@@ -1,6 +1,7 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { IColorPalette, IColor } from './interfaces';
+import { Action } from 'redux';
 
 export type RootStackParamList = {
   Home: { newColorPalette?: IColorPalette };
@@ -49,3 +50,5 @@ export type ColorPaletteScreenProps = {
   navigation: ColorPaletteScreenNavigationProp;
   route: ColorPaletteScreenRouteProp;
 };
+
+export type colorPaletteAction = Action & { colorPalette: IColorPalette };
