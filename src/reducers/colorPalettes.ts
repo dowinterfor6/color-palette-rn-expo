@@ -1,7 +1,12 @@
 import { CREATE_PALETTE, FETCH_PALETTES } from '../actions/actions';
 import { COLOR_PALETTES } from '../data/initialColorPalettes';
+import { IColorPalette } from '../interfaces/interfaces';
+import { colorPaletteAction } from '../interfaces/types';
 
-const colorPaletteReducer = (state = COLOR_PALETTES, action) => {
+const colorPaletteReducer = (
+  state: IColorPalette[] = COLOR_PALETTES,
+  action: colorPaletteAction,
+) => {
   Object.freeze(state);
 
   switch (action.type) {
