@@ -1,4 +1,4 @@
-import { IColorPalette } from "../interfaces/interfaces";
+import { IColorPalette } from '../interfaces/interfaces';
 
 export const CREATE_PALETTE = 'CREATE_PALETTE';
 
