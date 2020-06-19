@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   boxText: {
-    color: 'white',
     fontWeight: 'bold',
   },
 });
