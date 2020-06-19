@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+
 import ColorBox from '../components/ColorBox';
 import { IColorPalette } from '../interfaces/interfaces';
 import { ColorPaletteScreenProps } from '../interfaces/types';

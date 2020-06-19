@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useCallback, useEffect } from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+
+import { createPalette, fetchPalettes } from '../actions/actions';
 import PalettePreview from '../components/PalettePreview';
 import { IColorPalette, IState } from '../interfaces/interfaces';
 import { HomeScreenProps } from '../interfaces/types';
-import { bindActionCreators, Dispatch } from 'redux';
-import { createPalette, fetchPalettes } from '../actions/actions';
-import { connect } from 'react-redux';
 
 const Home = ({
   navigation,

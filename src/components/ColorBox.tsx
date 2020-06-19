@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+
 import { IColor } from '../interfaces/interfaces';
 
 const ColorBox = ({ colorName, hexCode }: IColor) => {

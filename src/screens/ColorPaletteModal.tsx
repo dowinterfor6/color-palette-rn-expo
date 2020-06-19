@@ -10,6 +10,7 @@ import {
   Switch,
   FlatList,
 } from 'react-native';
+
 import COLORS from '../data/colors';
 import { IColor } from '../interfaces/interfaces';
 import { ColorPaletteModalScreenProps } from '../interfaces/types';
