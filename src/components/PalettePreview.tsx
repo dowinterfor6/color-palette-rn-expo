@@ -6,6 +6,7 @@ import {
   FlatList,
   View,
 } from 'react-native';
+
 import { IPalettePreview } from '../interfaces/interfaces';
 
 const PalettePreview = ({ handlePress, colorPalette }: IPalettePreview) => {
