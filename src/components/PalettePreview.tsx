@@ -7,19 +7,22 @@ import {
   View,
 } from 'react-native';
 
-import { IPalettePreview } from '../interfaces/interfaces';
+import { IPalettePreview, IColor } from '../interfaces/interfaces';
+import { flatlistKeyExtractor } from '../utils/utils';
 
 const PalettePreview = ({ handlePress, colorPalette }: IPalettePreview) => {
+  const renderItem = ({ item }: { item: IColor }) => (
+    <View style={[{ backgroundColor: item.hexCode }, styles.box]} />
+  );
+
   return (
     <TouchableOpacity onPress={handlePress}>
       <Text style={styles.text}>{colorPalette.paletteName}</Text>
       <FlatList
         style={styles.list}
         data={colorPalette.colors.slice(0, 5)}
-        keyExtractor={(_, index) => `palette-item-${index}`}
-        renderItem={({ item }) => (
-          <View style={[{ backgroundColor: item.hexCode }, styles.box]} />
-        )}
+        keyExtractor={flatlistKeyExtractor('palette-item-')}
+        renderItem={renderItem}
       />
     </TouchableOpacity>
   );

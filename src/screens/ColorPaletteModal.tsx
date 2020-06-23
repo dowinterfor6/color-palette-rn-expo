@@ -14,6 +14,7 @@ import {
 import COLORS from '../data/colors';
 import { IColor } from '../interfaces/interfaces';
 import { ColorPaletteModalScreenProps } from '../interfaces/types';
+import { flatlistKeyExtractor } from '../utils/utils';
 
 // const ColorPaletteModal = ({ navigation }: { navigation: INavigation }) => {
 const ColorPaletteModal = ({ navigation }: ColorPaletteModalScreenProps) => {
@@ -46,6 +47,20 @@ const ColorPaletteModal = ({ navigation }: ColorPaletteModalScreenProps) => {
     }
   }, []);
 
+  const renderItem = ({ item }: { item: IColor }) => (
+    <View style={styles.color}>
+      <Text>{item.colorName}</Text>
+      <Switch
+        value={
+          !!selectedColors.find((color) => color.colorName === item.colorName)
+        }
+        onValueChange={(selected) => {
+          handleValueChange(selected, item);
+        }}
+      />
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.name}>Name of new palette</Text>
@@ -57,22 +72,8 @@ const ColorPaletteModal = ({ navigation }: ColorPaletteModalScreenProps) => {
       />
       <FlatList
         data={COLORS}
-        keyExtractor={(_, index) => `modal-color-list-${index}`}
-        renderItem={({ item }) => (
-          <View style={styles.color}>
-            <Text>{item.colorName}</Text>
-            <Switch
-              value={
-                !!selectedColors.find(
-                  (color) => color.colorName === item.colorName,
-                )
-              }
-              onValueChange={(selected) => {
-                handleValueChange(selected, item);
-              }}
-            />
-          </View>
-        )}
+        keyExtractor={flatlistKeyExtractor('modal-color-list')}
+        renderItem={renderItem}
       />
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Submit</Text>
