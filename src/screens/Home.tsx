@@ -8,6 +8,7 @@ import { createPalette, fetchPalettes } from '../actions/actions';
 import PalettePreview from '../components/PalettePreview';
 import { IColorPalette, IState } from '../interfaces/interfaces';
 import { HomeScreenProps } from '../interfaces/types';
+import { flatlistKeyExtractor } from '../utils/utils';
 
 const Home = ({
   navigation,
@@ -51,27 +52,29 @@ const Home = ({
     }
   }, [newColorPalette]);
 
+  const renderItem = ({ item }: { item: IColorPalette }) => (
+    <PalettePreview
+      handlePress={() => {
+        navigation.navigate('ColorPalette', item);
+      }}
+      colorPalette={item}
+    />
+  );
+
+  const colorPaletteModalOnPress = () => {
+    navigation.navigate('ColorPaletteModal');
+  };
+
   return (
     <FlatList
       style={styles.list}
       data={colorPalettes}
-      keyExtractor={(_, index) => `home-palette-list-${index}`}
-      renderItem={({ item }) => (
-        <PalettePreview
-          handlePress={() => {
-            navigation.navigate('ColorPalette', item);
-          }}
-          colorPalette={item}
-        />
-      )}
+      keyExtractor={flatlistKeyExtractor('home-palette-list')}
+      renderItem={renderItem}
       refreshing={isRefreshing}
       onRefresh={handleRefresh}
       ListHeaderComponent={
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('ColorPaletteModal');
-          }}
-        >
+        <TouchableOpacity onPress={colorPaletteModalOnPress}>
           <Text style={styles.buttonText}>Add a color palette</Text>
         </TouchableOpacity>
       }
