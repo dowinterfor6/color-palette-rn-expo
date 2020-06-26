@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -13,14 +13,42 @@ import { RootStackParamList, MainStackParamList } from './src/interfaces/types';
 const RootStack = createStackNavigator<RootStackParamList>();
 const MainStack = createStackNavigator<MainStackParamList>();
 
+const animationConfig = {
+  animation: 'spring',
+  config: {
+    stiffness: 1000,
+    damping: 50,
+    mass: 3,
+    overshootClamping: false,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
+};
+
 const MainStackScreen = () => {
   return (
-    <MainStack.Navigator>
-      <MainStack.Screen name="Home" component={Home} />
+    <MainStack.Navigator
+      screenOptions={{
+        gestureEnabled: true,
+        gestureDirection: 'horizontal',
+      }}
+    // headerMode="screen"
+    >
+      <MainStack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          title: 'wtf',
+          headerTitleAlign: 'center',
+        }}
+      />
       <MainStack.Screen
         name="ColorPalette"
         component={ColorPalette}
-        options={({ route }) => ({ title: route.params.paletteName })}
+        options={({ route }) => ({
+          title: route.params.paletteName,
+          headerTitleAlign: 'center',
+        })}
       />
     </MainStack.Navigator>
   );
@@ -31,7 +59,7 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <RootStack.Navigator mode="modal">
+          <RootStack.Navigator mode="modal" headerMode="screen">
             <RootStack.Screen
               name="Main"
               component={MainStackScreen}
@@ -40,7 +68,10 @@ const App = () => {
             <RootStack.Screen
               name="ColorPaletteModal"
               component={ColorPaletteModal}
-              options={{ title: 'New Color Palette' }}
+              options={{
+                title: 'New Color Palette',
+                headerTitleAlign: 'center',
+              }}
             />
           </RootStack.Navigator>
         </NavigationContainer>
