@@ -13,17 +13,25 @@ import { RootStackParamList, MainStackParamList } from './src/interfaces/types';
 const RootStack = createStackNavigator<RootStackParamList>();
 const MainStack = createStackNavigator<MainStackParamList>();
 
-const animationConfig = {
+const config = {
   animation: 'spring',
   config: {
     stiffness: 1000,
-    damping: 50,
+    damping: 500,
     mass: 3,
-    overshootClamping: false,
+    overshootClamping: true,
     restDisplacementThreshold: 0.01,
     restSpeedThreshold: 0.01,
   },
 };
+
+const test = {
+  animation: 'timing',
+  config: {
+    duration: 10,
+    easing: 1,
+  }
+}
 
 const MainStackScreen = () => {
   return (
@@ -31,15 +39,22 @@ const MainStackScreen = () => {
       screenOptions={{
         gestureEnabled: true,
         gestureDirection: 'horizontal',
+        headerTitleAlign: 'center',
+        // cardShadowEnabled: false,
+        // cardOverlayEnabled: false,
+        // animationEnabled: false,
       }}
-    // headerMode="screen"
+      headerMode="screen"
     >
       <MainStack.Screen
         name="Home"
         component={Home}
         options={{
           title: 'wtf',
-          headerTitleAlign: 'center',
+          transitionSpec: {
+            open: config,
+            close: config,
+          },
         }}
       />
       <MainStack.Screen
@@ -47,7 +62,6 @@ const MainStackScreen = () => {
         component={ColorPalette}
         options={({ route }) => ({
           title: route.params.paletteName,
-          headerTitleAlign: 'center',
         })}
       />
     </MainStack.Navigator>
@@ -59,7 +73,11 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <RootStack.Navigator mode="modal" headerMode="screen">
+          <RootStack.Navigator
+            mode="modal"
+            // headerMode="float"
+            screenOptions={{ headerTitleAlign: 'center' }}
+          >
             <RootStack.Screen
               name="Main"
               component={MainStackScreen}
@@ -70,7 +88,6 @@ const App = () => {
               component={ColorPaletteModal}
               options={{
                 title: 'New Color Palette',
-                headerTitleAlign: 'center',
               }}
             />
           </RootStack.Navigator>
