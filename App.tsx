@@ -1,17 +1,26 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, TransitionSpecs, HeaderStyleInterpolators } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  TransitionSpecs,
+  HeaderStyleInterpolators,
+} from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Home from './src/screens/Home';
 import ColorPalette from './src/screens/ColorPalette';
 import ColorPaletteModal from './src/screens/ColorPaletteModal';
 import { store, persistor } from './src/store/configureStore';
 import { RootStackParamList, MainStackParamList } from './src/interfaces/types';
+import SampleDrawer from './src/screens/SampleDrawer';
+import CustomDrawerContent from './src/drawers/CustomDrawerContent';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 const MainStack = createStackNavigator<MainStackParamList>();
+const Drawer = createDrawerNavigator();
 
 const config = {
   animation: 'spring',
@@ -24,14 +33,6 @@ const config = {
     restSpeedThreshold: 0.01,
   },
 };
-
-const test = {
-  animation: 'timing',
-  config: {
-    duration: 10,
-    easing: 1,
-  }
-}
 
 const MyTransition = {
   gestureDirection: 'horizontal',
@@ -94,7 +95,7 @@ const MainStackScreen = () => {
         name="Home"
         component={Home}
         options={{
-          title: 'wtf',
+          title: 'Home',
           transitionSpec: {
             open: config,
             close: config,
@@ -112,29 +113,61 @@ const MainStackScreen = () => {
   );
 };
 
+const RootStackScreen = () => {
+  return (
+    <RootStack.Navigator
+      mode="modal"
+      // headerMode="float"
+      screenOptions={{ headerTitleAlign: 'center' }}
+    >
+      <RootStack.Screen
+        name="Main"
+        component={MainStackScreen}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen
+        name="ColorPaletteModal"
+        component={ColorPaletteModal}
+        options={{
+          title: 'New Color Palette',
+        }}
+      />
+    </RootStack.Navigator>
+  );
+};
+
 const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <RootStack.Navigator
-            mode="modal"
-            // headerMode="float"
-            screenOptions={{ headerTitleAlign: 'center' }}
+          <Drawer.Navigator
+            edgeWidth={25}
+            drawerContent={(props) => <CustomDrawerContent {...props} />}
           >
-            <RootStack.Screen
-              name="Main"
-              component={MainStackScreen}
-              options={{ headerShown: false }}
-            />
-            <RootStack.Screen
-              name="ColorPaletteModal"
-              component={ColorPaletteModal}
+            <Drawer.Screen
+              name="Home"
+              component={RootStackScreen}
               options={{
-                title: 'New Color Palette',
+                drawerIcon: () => (
+                  <FontAwesome name="home" size={24} color="black" />
+                ),
               }}
             />
-          </RootStack.Navigator>
+            <Drawer.Screen
+              name="Sample Drawer Component"
+              component={SampleDrawer}
+              options={{
+                drawerIcon: () => (
+                  <MaterialCommunityIcons
+                    name="test-tube-empty"
+                    size={24}
+                    color="black"
+                  />
+                ),
+              }}
+            />
+          </Drawer.Navigator>
         </NavigationContainer>
       </PersistGate>
     </Provider>
