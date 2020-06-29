@@ -6,6 +6,7 @@ import {
   HeaderStyleInterpolators,
 } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -17,10 +18,12 @@ import { store, persistor } from './src/store/configureStore';
 import { RootStackParamList, MainStackParamList } from './src/interfaces/types';
 import SampleDrawer from './src/screens/SampleDrawer';
 import CustomDrawerContent from './src/drawers/CustomDrawerContent';
+import SampleTab from './src/screens/SampleTab';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 const MainStack = createStackNavigator<MainStackParamList>();
 const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 
 const config = {
   animation: 'spring',
@@ -136,6 +139,29 @@ const RootStackScreen = () => {
   );
 };
 
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Home"
+        component={RootStackScreen}
+        options={{
+          tabBarIcon: () => <FontAwesome name="home" size={24} color="black" />,
+        }}
+      />
+      <Tab.Screen
+        name="Sample Tab"
+        component={SampleTab}
+        options={{
+          tabBarIcon: () => (
+            <MaterialCommunityIcons name="test-tube" size={24} color="black" />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
 const App = () => {
   return (
     <Provider store={store}>
@@ -147,7 +173,7 @@ const App = () => {
           >
             <Drawer.Screen
               name="Home"
-              component={RootStackScreen}
+              component={TabNavigator}
               options={{
                 drawerIcon: () => (
                   <FontAwesome name="home" size={24} color="black" />
