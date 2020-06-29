@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useCallback, useEffect } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { useState, useCallback, useEffect, useLayoutEffect } from 'react';
+import { FlatList, StyleSheet, TouchableOpacity, Text, Button } from 'react-native';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
@@ -65,6 +65,14 @@ const Home = ({
     navigation.navigate('ColorPaletteModal');
   };
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button onPress={colorPaletteModalOnPress} title="New palette" />
+      ),
+    });
+  });
+
   return (
     <FlatList
       style={styles.list}
@@ -73,11 +81,11 @@ const Home = ({
       renderItem={renderItem}
       refreshing={isRefreshing}
       onRefresh={handleRefresh}
-      ListHeaderComponent={
-        <TouchableOpacity onPress={colorPaletteModalOnPress}>
-          <Text style={styles.buttonText}>Add a color palette</Text>
-        </TouchableOpacity>
-      }
+    // ListHeaderComponent={
+    //   <TouchableOpacity onPress={colorPaletteModalOnPress}>
+    //     <Text style={styles.buttonText}>Add a color palette</Text>
+    //   </TouchableOpacity>
+    // }
     />
   );
 };

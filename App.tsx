@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, TransitionSpecs, HeaderStyleInterpolators } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -13,14 +13,100 @@ import { RootStackParamList, MainStackParamList } from './src/interfaces/types';
 const RootStack = createStackNavigator<RootStackParamList>();
 const MainStack = createStackNavigator<MainStackParamList>();
 
+const config = {
+  animation: 'spring',
+  config: {
+    stiffness: 1000,
+    damping: 500,
+    mass: 3,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
+};
+
+const test = {
+  animation: 'timing',
+  config: {
+    duration: 10,
+    easing: 1,
+  }
+}
+
+const MyTransition = {
+  gestureDirection: 'horizontal',
+  transitionSpec: {
+    open: TransitionSpecs.TransitionIOSSpec,
+    close: TransitionSpecs.TransitionIOSSpec,
+  },
+  headerStyleInterpolator: HeaderStyleInterpolators.forFade,
+  cardStyleInterpolator: ({ current, next, layouts }) => {
+    return {
+      cardStyle: {
+        transform: [
+          {
+            translateX: current.progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [layouts.screen.width, 0],
+            }),
+          },
+          {
+            rotate: current.progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 0],
+            }),
+          },
+          {
+            scale: next
+              ? next.progress.interpolate({
+                inputRange: [0, 1],
+                outputRange: [1, 0.9],
+              })
+              : 1,
+          },
+        ],
+      },
+      overlayStyle: {
+        opacity: current.progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 0.5],
+        }),
+      },
+    };
+  },
+};
+
 const MainStackScreen = () => {
   return (
-    <MainStack.Navigator>
-      <MainStack.Screen name="Home" component={Home} />
+    <MainStack.Navigator
+      screenOptions={{
+        gestureEnabled: true,
+        // gestureDirection: 'horizontal',
+        headerTitleAlign: 'center',
+        // cardShadowEnabled: false,
+        cardOverlayEnabled: true,
+        // animationEnabled: false,
+        ...MyTransition,
+      }}
+      headerMode="screen"
+    >
+      <MainStack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          title: 'wtf',
+          transitionSpec: {
+            open: config,
+            close: config,
+          },
+        }}
+      />
       <MainStack.Screen
         name="ColorPalette"
         component={ColorPalette}
-        options={({ route }) => ({ title: route.params.paletteName })}
+        options={({ route }) => ({
+          title: route.params.paletteName,
+        })}
       />
     </MainStack.Navigator>
   );
@@ -31,7 +117,11 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <RootStack.Navigator mode="modal">
+          <RootStack.Navigator
+            mode="modal"
+            // headerMode="float"
+            screenOptions={{ headerTitleAlign: 'center' }}
+          >
             <RootStack.Screen
               name="Main"
               component={MainStackScreen}
@@ -40,7 +130,9 @@ const App = () => {
             <RootStack.Screen
               name="ColorPaletteModal"
               component={ColorPaletteModal}
-              options={{ title: 'New Color Palette' }}
+              options={{
+                title: 'New Color Palette',
+              }}
             />
           </RootStack.Navigator>
         </NavigationContainer>
