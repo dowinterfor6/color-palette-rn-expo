@@ -85,11 +85,8 @@ const MainStackScreen = () => {
     <MainStack.Navigator
       screenOptions={{
         gestureEnabled: true,
-        // gestureDirection: 'horizontal',
         headerTitleAlign: 'center',
-        // cardShadowEnabled: false,
         cardOverlayEnabled: true,
-        // animationEnabled: false,
         ...MyTransition,
       }}
       headerMode="screen"
@@ -120,7 +117,6 @@ const RootStackScreen = () => {
   return (
     <RootStack.Navigator
       mode="modal"
-      // headerMode="float"
       screenOptions={{ headerTitleAlign: 'center' }}
     >
       <RootStack.Screen

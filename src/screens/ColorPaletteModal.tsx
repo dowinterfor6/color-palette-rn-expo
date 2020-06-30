@@ -16,7 +16,6 @@ import { IColor } from '../interfaces/interfaces';
 import { ColorPaletteModalScreenProps } from '../interfaces/types';
 import { flatlistKeyExtractor } from '../utils/utils';
 
-// const ColorPaletteModal = ({ navigation }: { navigation: INavigation }) => {
 const ColorPaletteModal = ({ navigation }: ColorPaletteModalScreenProps) => {
   const [name, setName] = useState('');
   const [selectedColors, setSelectedColors] = useState<IColor[]>([]);
@@ -31,7 +30,10 @@ const ColorPaletteModal = ({ navigation }: ColorPaletteModalScreenProps) => {
         paletteName: name,
         colors: selectedColors,
       };
-      navigation.navigate('Home', { newColorPalette });
+      navigation.navigate('Main', {
+        screen: 'Home',
+        params: { newColorPalette },
+      });
     }
   }, [name, selectedColors]);
 

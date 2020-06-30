@@ -6,7 +6,7 @@ import {
 } from '@react-navigation/drawer';
 import { Linking } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-// import * as Linking from 'expo-linking';
+// import * as Linking from 'expo-linking'; // alternative
 
 const CustomDrawerContent = (props) => {
   return (
