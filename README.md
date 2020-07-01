@@ -17,3 +17,13 @@ Expo Android Build (apk): https://expo.io/artifacts/9fbe3491-c033-4efe-8d21-551e
 Expo iOS Build (simulator): https://expo.io/artifacts/3018baaa-5bb6-44e1-b55c-7309fc011ac0
 
 Expo Icons: https://icons.expo.fyi/
+
+App Icon: 
+```HTML
+<div>
+  Icons made by 
+  <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> 
+  from
+  <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+</div>
+```
