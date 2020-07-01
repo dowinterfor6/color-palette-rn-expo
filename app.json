@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ColorPaletteApp",
-    "slug": "ColorPaletteApp",
+    "name": "Color Palette App",
+    "slug": "color-palette-app",
     "platforms": [
       "ios",
       "android",
@@ -22,7 +22,13 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.dowinterfor6.colorpaletteapp",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.dowinterfor6.colorpaletteapp",
+      "versionCode": 1
     }
   }
 }
