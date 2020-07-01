@@ -7,12 +7,12 @@
       "android",
       "web"
     ],
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./src/assets/images/color-palette-logo.png",
     "splash": {
       "image": "./src/assets/images/color-palette-splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#000000"
     },
     "updates": {
@@ -23,12 +23,12 @@
     ],
     "ios": {
       "bundleIdentifier": "com.dowinterfor6.colorpaletteapp",
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.0.2",
       "supportsTablet": true
     },
     "android": {
       "package": "com.dowinterfor6.colorpaletteapp",
-      "versionCode": 2
+      "versionCode": 3
     }
   }
 }
